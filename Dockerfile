@@ -1,2 +1,4 @@
 FROM alpine
-CMD echo "This is a test." | wc -
+RUN echo "Building this image"
+ENTRYPOINT echo
+CMD "This is a test image."

@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install -y kpartx mtd-utils
 # Copy the image file to the container
 COPY image_you_want_to_convert.img /
 
+# Run the container as the root user
+USER root
+
 # Run the following commands in the shell
 RUN kpartx -av image_you_want_to_convert.img \
     && mount /dev/mapper/loop0p2 /mnt \

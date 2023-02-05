@@ -1,5 +1,12 @@
-version: '3.3'
+version: '3.9'
 services:
-  test-buildroot-rpi4:
+  test-berryboot-buildroot-latest:
     build:
       context: .
+    volumes:
+    - type: volume
+      source: buildroot-volume
+      target: /buildroot/
+
+volumes:
+  buildroot-volume:

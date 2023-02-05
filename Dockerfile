@@ -5,7 +5,9 @@ FROM ubuntu:20.04
 RUN apt-get update && apt-get install -y kpartx mtd-utils
 
 # Copy the image file to the container
-COPY image_you_want_to_convert.img /
+#COPY image_you_want_to_convert.img /
+
+WORKDIR /home/berryboot
 
 # Run the container as the root user
 USER root

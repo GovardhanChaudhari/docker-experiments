@@ -1,9 +1,5 @@
 version: '3.3'
 services:
-  test-berry-boot:
+  test-buildroot-rpi4:
     build:
       context: .
-    volumes:
-      - type: bind
-        source: .
-        target: /home/berryboot

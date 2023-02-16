@@ -1,25 +1,8 @@
 # docker-experiments
 
-### Run following command to build image
-
-```
-docker compose build
-```
-
-### Backup volume in tar file
-
-Linux:
-Note: Here --valumes-from takes name of the container (test-berryboot-buildroot-latest, from docker-compose file)
-
-```
-docker run --rm --volumes-from test-berryboot-buildroot-latest -v $(pwd):/backup ubuntu tar cvf /backup/buildroot-volume.tar /buildroot
-```
+### Run following command to build image (WIP)
 
 Windows:
 ```
-docker run --rm --volumes-from test-berryboot-buildroot-latest -v H:\dev\docker\docker-experiments:/backup ubuntu:20.04 tar cvf /backup/backup.tar /buildroot
+docker run -it -v H:\dev\docker\docker-experiments\buildroot:/buildroot docker-experiments_local-buildroot-latest bash
 ```
-
-
-## References
-- https://docs.docker.com/storage/volumes/#back-up-restore-or-migrate-data-volumes

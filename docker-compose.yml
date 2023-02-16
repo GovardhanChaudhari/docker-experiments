@@ -1,12 +1,9 @@
 version: '3.9'
 services:
-  test-berryboot-buildroot-latest:
+  local-buildroot-latest:
     build:
       context: .
     volumes:
-    - type: volume
-      source: buildroot-volume
-      target: /buildroot/
-
-volumes:
-  buildroot-volume:
+    - type: bind
+      source: ./buildroot
+      target: /buildroot

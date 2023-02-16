@@ -4,12 +4,17 @@
 
 ```
 docker compose build
+
+docker compose  build --no-cache --progress=plain
 ```
 
 ### Run following command to build a particular stage, eg. here compile-kernel
 
 ```
 docker compose build compile-kernel
+
+docker compose build download-kernel-source
+
 ```
 
 ### Run following command to test dockerfile commands

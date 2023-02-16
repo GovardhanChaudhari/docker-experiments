@@ -18,7 +18,15 @@ services:
   compile-kernel:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.compile-kernel
     image: mybuild/compile-kernel
     depends_on:
       - download-kernel-source
+      
+  install-kernel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mybuild/install-kernel
+    depends_on:
+      - compile-kernel

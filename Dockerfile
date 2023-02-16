@@ -1,5 +1,5 @@
 # Use a build environment image as the base
-FROM docker-experiments_test-build-essentials
+FROM mybuild/download-kernel-source
 
 ARG KERNEL_VERSION=5.10
 ARG KERNEL_FILE=linux-${KERNEL_VERSION}.tar.gz

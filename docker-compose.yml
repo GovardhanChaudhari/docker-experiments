@@ -1,5 +1,24 @@
-version: '3.3'
+version: '3'
+
 services:
-  test-kernel-build:
+  build-essentials:
     build:
       context: .
+      dockerfile: Dockerfile.build-essentials
+    image: mybuild/build-essentials
+
+  download-kernel-source:
+    build:
+      context: .
+      dockerfile: Dockerfile.download-kernel-source
+    image: mybuild/download-kernel-source
+    depends_on:
+      - build-essentials
+
+  compile-kernel:
+    build:
+      context: .
+      dockerfile: Dockerfile.compile-kernel
+    image: mybuild/compile-kernel
+    depends_on:
+      - download-kernel-source

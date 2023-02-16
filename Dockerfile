@@ -8,8 +8,12 @@ ARG BUILD_ROOT_DIR=buildroot-${BUILD_ROOT_VERSION}
 # Update and install necessary packages
 
 # Install necessary packages for kernel compilation
-RUN apt-get update && \
-    apt-get install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev wget
+#RUN apt-get update && \
+#    apt-get install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev wget
+
+RUN apt-get update 
+RUN apt-get upgrade -y
+RUN apt-get install -y build-essential bison flex libssl-dev libelf-dev libncurses5-dev file cpio rsync unzip git wget bc
 
 # Download and extract kernel source
 WORKDIR /usr/src
@@ -28,8 +32,8 @@ RUN make defconfig
 RUN make -j 12
 
 # Install kernel and modules
-#RUN make modules_install && \
-    #make install
+RUN make modules_install && \
+    make install
 
 # Clean up unnecessary packages and files
 #RUN apt-get autoremove -y && \

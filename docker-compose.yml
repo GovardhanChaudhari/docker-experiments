@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   build-essentials:
@@ -12,8 +12,8 @@ services:
       context: .
       dockerfile: Dockerfile.download-kernel-source
       args:
-        KERNEL_MAJOR_VERSION: "5"
-        KERNEL_VERSION: "5.10"
+        KERNEL_MAJOR_VERSION: ${KERNEL_MAJOR_VERSION}
+        KERNEL_VERSION: ${KERNEL_VERSION}
     image: mybuild/download-kernel-source
     depends_on:
       - build-essentials
@@ -22,6 +22,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.compile-kernel
+      args:
+        KERNEL_MAJOR_VERSION: ${KERNEL_MAJOR_VERSION}
+        KERNEL_VERSION: ${KERNEL_VERSION}
+
     image: mybuild/compile-kernel
     depends_on:
       - download-kernel-source

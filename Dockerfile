@@ -5,13 +5,6 @@ ARG KERNEL_VERSION=5.10
 ARG KERNEL_FILE=linux-${KERNEL_VERSION}.tar.gz
 ARG BUILD_DIR=linux-${KERNEL_VERSION}
 
-# Download and extract kernel source
-WORKDIR /usr/src
-
-RUN wget https://cdn.kernel.org/pub/linux/kernel/v5.x/${KERNEL_FILE} && \
-    tar -xf ${KERNEL_FILE} && \
-    rm ${KERNEL_FILE}
-
 # Change to kernel source directory
 WORKDIR /usr/src/${BUILD_DIR}
 

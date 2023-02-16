@@ -4,6 +4,8 @@ FROM mybuild/build-essentials
 ARG KERNEL_VERSION
 ARG KERNEL_MAJOR_VERSION
 ARG KERNEL_FILE=linux-${KERNEL_VERSION}.tar.gz
+# For kernel version 6 it uses .xz
+#ARG KERNEL_FILE=linux-${KERNEL_VERSION}.tar.xz
 ARG BUILD_DIR=linux-${KERNEL_VERSION}
 ARG SRC_URL=https://cdn.kernel.org/pub/linux/kernel/v${KERNEL_MAJOR_VERSION}.x/${KERNEL_FILE}
 

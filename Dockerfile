@@ -6,22 +6,35 @@ ARG BUILD_ROOT_FILE=buildroot-${BUILD_ROOT_VERSION}.tar.gz
 ARG BUILD_ROOT_DIR=buildroot-${BUILD_ROOT_VERSION}
 
 # Update and install necessary packages
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y build-essential git wget bc bison flex libssl-dev libncurses5-dev file cpio rsync unzip
 
-# Download and extract Buildroot
-RUN wget https://buildroot.org/downloads/${BUILD_ROOT_FILE}
-RUN tar -xvzf ${BUILD_ROOT_FILE}
+# Install necessary packages for kernel compilation
+RUN apt-get update && \
+    apt-get install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev wget
 
-# Set the working directory to Buildroot
-WORKDIR /${BUILD_ROOT_DIR}
+# Download and extract kernel source
+WORKDIR /usr/src
 
-# Configure Buildroot for the Raspberry Pi 4
-RUN make raspberrypi4_defconfig
+RUN wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.tar.xz && \
+    tar -xf linux-5.10.tar.xz && \
+    rm linux-5.10.tar.xz
 
-# Build the kernel and its dependencies
-RUN make
+# Change to kernel source directory
+WORKDIR /usr/src/linux-5.10
 
-# Copy the compiled kernel to a directory on the host
-RUN mkdir /output
-RUN cp output/images/zImage /output
+# Configure kernel with default configuration
+RUN make defconfig
+
+# Compile kernel
+RUN make -j 12
+
+# Install kernel and modules
+#RUN make modules_install && \
+    #make install
+
+# Clean up unnecessary packages and files
+#RUN apt-get autoremove -y && \
+#    apt-get clean && \
+#    rm -rf /var/lib/apt/lists/* /usr/src/linux-5.10
+
+# Set default command to boot into the new kernel
+CMD ["/bin/bash"]

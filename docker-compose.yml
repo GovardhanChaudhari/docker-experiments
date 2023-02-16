@@ -1,5 +1,5 @@
 version: '3.3'
 services:
-  test-buildroot-rpi4:
+  test-kernel-build:
     build:
       context: .

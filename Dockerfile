@@ -1,16 +1,11 @@
 # Use a build environment image as the base
 FROM ubuntu:20.04
 
-ARG BUILD_ROOT_VERSION=2022.02
-ARG BUILD_ROOT_FILE=buildroot-${BUILD_ROOT_VERSION}.tar.gz
-ARG BUILD_ROOT_DIR=buildroot-${BUILD_ROOT_VERSION}
-
-# Update and install necessary packages
+ARG KERNEL_VERSION=5.10
+ARG KERNEL_FILE=linux-${KERNEL_VERSION}.tar.gz
+ARG BUILD_DIR=linux-${KERNEL_VERSION}
 
 # Install necessary packages for kernel compilation
-#RUN apt-get update && \
-#    apt-get install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev wget
-
 RUN apt-get update 
 RUN apt-get upgrade -y
 RUN apt-get install -y build-essential bison flex libssl-dev libelf-dev libncurses5-dev file cpio rsync unzip git wget bc
@@ -18,12 +13,12 @@ RUN apt-get install -y build-essential bison flex libssl-dev libelf-dev libncurs
 # Download and extract kernel source
 WORKDIR /usr/src
 
-RUN wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.tar.xz && \
-    tar -xf linux-5.10.tar.xz && \
-    rm linux-5.10.tar.xz
+RUN wget https://cdn.kernel.org/pub/linux/kernel/v5.x/${KERNEL_FILE} && \
+    tar -xf ${KERNEL_FILE} && \
+    rm ${KERNEL_FILE}
 
 # Change to kernel source directory
-WORKDIR /usr/src/linux-5.10
+WORKDIR /usr/src/${BUILD_DIR}
 
 # Configure kernel with default configuration
 RUN make defconfig

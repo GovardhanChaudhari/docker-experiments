@@ -39,3 +39,11 @@ services:
     image: mybuild/install-kernel
     depends_on:
       - compile-kernel
+
+  test:
+      build:
+        context: .
+        dockerfile: Dockerfile.test
+        args:
+          KERNEL_VERSION: ${KERNEL_VERSION}
+      image: mybuild/test-image      

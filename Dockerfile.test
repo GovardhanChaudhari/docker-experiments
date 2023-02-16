@@ -1,0 +1,7 @@
+FROM ubuntu:latest
+
+
+RUN MY_VAR=$(echo "Hello, world!") 
+
+ENV VAR1=$MY_VAR
+RUN echo "My variable is: $VAR1"

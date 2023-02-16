@@ -11,6 +11,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.download-kernel-source
+      args:
+        KERNEL_MAJOR_VERSION: "5"
+        KERNEL_VERSION: "5.10"
     image: mybuild/download-kernel-source
     depends_on:
       - build-essentials
@@ -22,7 +25,7 @@ services:
     image: mybuild/compile-kernel
     depends_on:
       - download-kernel-source
-      
+
   install-kernel:
     build:
       context: .

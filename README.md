@@ -1,5 +1,9 @@
 # docker-experiments
 
+## This branch uses linux kernel LTS version 6.6.14 with LTS ubuntu 22.04
+
+Kernel version number settings are stored in .env file
+
 ### Run following command to build image
 
 ```

@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.build-essentials
+      args:
+        UBUNTU_VERSION: ${UBUNTU_VERSION}
     image: mybuild/build-essentials
 
   download-kernel-source:

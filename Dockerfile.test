@@ -3,5 +3,8 @@ FROM ubuntu:latest
 
 RUN MY_VAR=$(echo "Hello, world!") 
 
-ENV VAR1=$MY_VAR
-RUN echo "My variable is: $VAR1"
+ENV VAR1=${MY_VAR}
+ENV VAR2="Hellow world 2 "
+RUN echo "var1= ${VAR1}, var2=  ${VAR2}"
+
+# Output : var1= , var2=  Hellow world 2 

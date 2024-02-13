@@ -5,6 +5,11 @@ RUN MY_VAR=$(echo "Hello, world!")
 
 ENV VAR1=${MY_VAR}
 ENV VAR2="Hellow world 2 "
-RUN echo "var1= ${VAR1}, var2=  ${VAR2}"
+#ENV LHOST=${KERNEL_VERSION}
+RUN echo "var1= ${VAR1}, var2=  ${VAR2}, ver=${KERNEL_VERSION}"
+WORKDIR /test
+COPY ./test.sh . 
+RUN chmod +x /test/test.sh
+CMD ["./test.sh"]
 
 # Output : var1= , var2=  Hellow world 2 

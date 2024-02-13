@@ -1,9 +1,11 @@
 #!/bin/sh
 
+sh -c "echo *******************lhost=${LHOST}"
+
 cd /usr/share/metasploit-framework
 git config --global user.name "msf"
 git config --global email.name "msf@localhost"
-/usr/share/metasploit-framework/msfupdate
+#/usr/share/metasploit-framework/msfupdate
 
 MSFUSER=${MSFUSER:-postgres}
 MSFPASS=${MSFPASS:-postgres}
@@ -28,7 +30,7 @@ sh -c "echo 'production:
   port: 5432
   pool: 75
   timeout: 5' > /usr/share/metasploit-framework/config/database.yml"
-	/usr/share/metasploit-framework/msfconsole
+	/usr/share/metasploit-framework/msfconsole -x "set LHOST $LHOST" -r /usr/share/set-msf-env.rc
 else
-	/usr/share/metasploit-framework/msfconsole -n
+	/usr/share/metasploit-framework/msfconsole -n -x "set LHOST $LHOST" -r /usr/share/set-msf-env.rc
 fi

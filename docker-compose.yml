@@ -17,6 +17,8 @@ services:
       args:
         ALPINE_VERSION: ${ALPINE_VERSION}
     image: mybuild/gvc-alpine-metasploit
+    env_file:
+      - ./.env
     depends_on:
       - build-msf-dependencies
 
@@ -33,6 +35,6 @@ services:
       build:
         context: .
         dockerfile: Dockerfile.test
-        args:
-          KERNEL_VERSION: ${KERNEL_VERSION}
       image: mybuild/test-image      
+      env_file:
+      - ./.env

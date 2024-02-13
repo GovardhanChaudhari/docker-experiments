@@ -1,5 +1,3 @@
-ARG ALPINE_VERSION
-
 # Use a build environment image as the base
 # Note that variable value in .env file is 'ubuntu:22.04' which is syntax of 'FROM' docker instruction
 FROM mybuild/gvc-alpine-msf-dependencies
@@ -9,6 +7,5 @@ COPY ./start.sh /usr/local/bin/start.sh
 COPY ./set-msf-env.rc /usr/share/set-msf-env.rc
 ENV PATH=$PATH:/usr/share/metasploit-framework
 RUN chmod +x /usr/local/bin/start.sh
-
 VOLUME [ "/usr/share/metasploit-framework" ]
 CMD [ "/usr/local/bin/start.sh" ]

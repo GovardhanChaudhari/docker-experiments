@@ -11,6 +11,24 @@
 docker compose build
 ```
 
+### Run following command to build install metasploit-framework stage
+
+```
+docker compose build install-metasploit-framework
+```
+
+### Run following command to run metasploit-framework image just built by aboce stage
+
+```
+docker run -it --rm mybuild/gvc-alpine-metasploit 
+```
+
+To exit msfconsole type
+
+```
+exit
+```
+
 ### Run following command to build a particular stage, eg. here compile-kernel
 
 ```

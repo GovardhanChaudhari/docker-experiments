@@ -1,6 +1,26 @@
 version: '3.8'
 
 services:
+
+  build-msf-dependencies:
+    build:
+      context: .
+      dockerfile: Dockerfile.build-msf-dependencies
+      args:
+        ALPINE_VERSION: ${ALPINE_VERSION}
+    image: mybuild/gvc-alpine-msf-dependencies
+
+  install-metasploit-framework:
+    build:
+      context: .
+      dockerfile: Dockerfile.install-metasploit-framework
+      args:
+        ALPINE_VERSION: ${ALPINE_VERSION}
+    image: mybuild/gvc-alpine-metasploit
+    depends_on:
+      - build-msf-dependencies
+
+
   build-essentials:
     build:
       context: .
@@ -8,39 +28,6 @@ services:
       args:
         UBUNTU_VERSION: ${UBUNTU_VERSION}
     image: mybuild/build-essentials
-
-  download-kernel-source:
-    build:
-      context: .
-      dockerfile: Dockerfile.download-kernel-source
-      args:
-        KERNEL_MAJOR_VERSION: ${KERNEL_MAJOR_VERSION}
-        KERNEL_VERSION: ${KERNEL_VERSION}
-    image: mybuild/download-kernel-source
-    depends_on:
-      - build-essentials
-
-  compile-kernel:
-    build:
-      context: .
-      dockerfile: Dockerfile.compile-kernel
-      args:
-        KERNEL_MAJOR_VERSION: ${KERNEL_MAJOR_VERSION}
-        KERNEL_VERSION: ${KERNEL_VERSION}
-
-    image: mybuild/compile-kernel
-    depends_on:
-      - download-kernel-source
-
-  install-kernel:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        KERNEL_VERSION: ${KERNEL_VERSION}
-    image: mybuild/install-kernel
-    depends_on:
-      - compile-kernel
 
   test:
       build:

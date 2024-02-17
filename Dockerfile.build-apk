@@ -1,0 +1,14 @@
+FROM mybuild/gvc-alpine-metasploit
+
+#ENV FILE_NAME=gen-apk.sh
+
+# Copy the entrypoint script
+COPY gen-apk.sh /gen-apk.sh
+
+# Set execute permissions on the entrypoint script
+RUN chmod +x /gen-apk.sh
+
+# Define entrypoint
+#ENTRYPOINT ["/gen-apk.sh"]
+
+CMD ["sh","/gen-apk.sh"]

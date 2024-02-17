@@ -1,0 +1,22 @@
+FROM openjdk:23-jdk-slim As builder
+
+# Install zip package
+RUN apt update && apt install -y zip && rm -rf /var/lib/apt/lists/*
+
+
+# Stage 2: Production Stage
+FROM openjdk:23-jdk-slim AS production
+
+# Set the working directory
+WORKDIR /data
+
+# Copy the entrypoint script
+COPY sign-apk.sh /sign-apk.sh
+
+# Set execute permissions on the sign-apk script
+RUN chmod +x /sign-apk.sh
+
+# Define sign-apk
+#ENTRYPOINT ["/sign-apk.sh"]
+
+CMD ["/sign-apk.sh"]

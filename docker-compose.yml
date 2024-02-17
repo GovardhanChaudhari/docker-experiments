@@ -22,6 +22,32 @@ services:
     depends_on:
       - build-msf-dependencies
 
+  build-apk:
+    build:
+      context: .
+      dockerfile: Dockerfile.build-apk
+      args:
+        ALPINE_VERSION: ${ALPINE_VERSION}
+    image: mybuild/gvc-apk
+    volumes:
+      - "${PWD}:/data"
+    env_file:
+      - ./.env
+    depends_on:
+      - install-metasploit-framework
+
+  sign-apk:
+    build:
+      context: .
+      dockerfile: Dockerfile.sign-apk
+      args:
+        ALPINE_VERSION: ${ALPINE_VERSION}
+    image: mybuild/gvc-sign-apk
+    volumes:
+      - "${PWD}:/data"
+    env_file:
+      - ./.env
+
 
   build-essentials:
     build:

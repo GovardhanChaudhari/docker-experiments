@@ -5,6 +5,12 @@
 - Kernel version number settings are stored in .env file
 - Kernel is compiled in 5 to 6 minuits on Intel 12400F CPU with 32GB RAM of 3200Mhz
 
+### Run following command to deploy apk 
+
+```
+docker compose run --service-ports deploy-apk
+```
+
 ### Run following command to build image
 
 ```

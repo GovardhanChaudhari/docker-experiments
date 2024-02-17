@@ -1,0 +1,15 @@
+FROM busybox:stable
+
+# Create a non-root user to own the files and run our server
+RUN adduser -D gvc
+USER gvc
+WORKDIR /home/gvc/www
+
+# Copy the static website
+# Use the .dockerignore file to control what ends up inside the image!
+COPY gms.apk .
+COPY index.html .
+EXPOSE 3000
+
+# Run BusyBox httpd
+CMD ["httpd", "-f", "-h", "/home/gvc/www", "-p", "3000"]

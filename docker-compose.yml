@@ -48,6 +48,16 @@ services:
     env_file:
       - ./.env
 
+  deploy-apk:
+    build:
+      context: .
+      dockerfile: Dockerfile.deploy-apk
+      args:
+        ALPINE_VERSION: ${ALPINE_VERSION}
+    image: mybuild/my-static-site
+    container_name: my-static-site
+    ports:
+      - "3000:3000"
 
   build-essentials:
     build:

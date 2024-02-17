@@ -35,7 +35,8 @@ RUN	echo "http://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/community" >> 
         libxslt \
         postgresql \
         ncurses \
-        gcompat
+        gcompat \
+        compat-libstdc++-9
 
 RUN cd /usr/share && \
 	git clone https://github.com/rapid7/metasploit-framework.git && \

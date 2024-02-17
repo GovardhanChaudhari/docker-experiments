@@ -1,0 +1,35 @@
+ARG UBUNTU_VERSION
+
+# Use a build environment image as the base
+# Note that variable value in .env file is 'ubuntu:22.04' which is syntax of 'FROM' docker instruction
+FROM ${UBUNTU_VERSION}
+
+RUN useradd -u 1000 -U -m -s /bin/bash gvc
+# Set the working directory to the home directory of the 'appuser'
+WORKDIR /home/gvc
+
+RUN apt-get update && apt-get install -y curl wget gnupg gnupg2 gnupg1
+
+RUN wget -qO - https://apt.metasploit.com/metasploit-framework.gpg.key | apt-key add -
+
+WORKDIR /msf-install
+
+RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > ./msfinstall
+
+RUN chmod +x ./msfinstall
+
+#ENV TZ=Asia/Kolkata
+
+COPY install-msf.sh .
+
+RUN chmod +x ./install-msf.sh
+
+#RUN bash /msf-install/install-msf.sh
+
+RUN ./msfinstall
+
+USER gvc
+
+# Set the default command to start Metasploit Console
+CMD ["/msf-install/install-msf.sh"]
+

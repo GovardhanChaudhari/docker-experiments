@@ -1,6 +1,6 @@
 # Use a build environment image as the base
 # Note that variable value in .env file is 'ubuntu:22.04' which is syntax of 'FROM' docker instruction
-FROM mybuild/gvc-alpine-msf-dependencies
+FROM mybuild/msf-deps
 
 # Install necessary packages for compilation
 COPY ./start.sh /usr/local/bin/start.sh

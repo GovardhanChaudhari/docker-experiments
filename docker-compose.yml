@@ -2,25 +2,53 @@ version: '3.8'
 
 services:
 
-  build-msf-dependencies:
-    build:
-      context: .
-      dockerfile: Dockerfile.build-msf-dependencies
-      args:
-        ALPINE_VERSION: ${ALPINE_VERSION}
-    image: mybuild/gvc-alpine-msf-dependencies
+  msf-postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: gvc
+      POSTGRES_PASSWORD: gvc123
+      POSTGRES_DB: msfdb
 
-  install-metasploit-framework:
+  build-msf-apline:
     build:
       context: .
-      dockerfile: Dockerfile.install-metasploit-framework
+      dockerfile: Dockerfile.build-msf-deps-alpine
       args:
         ALPINE_VERSION: ${ALPINE_VERSION}
-    image: mybuild/gvc-alpine-metasploit
+    image: mybuild/msf-deps-alpine
+
+  run-msf:
+    build:
+      context: .
+      dockerfile: Dockerfile.run-msf
+      args:
+        UBUNTU_VERSION: ${UBUNTU_VERSION}
+    image: mybuild/msf-deps
+    depends_on:
+      - build-msf
+
+  build-msf:
+    build:
+      context: .
+      dockerfile: Dockerfile.build-msf-deps
+      args:
+        UBUNTU_VERSION: ${UBUNTU_VERSION}
+    image: mybuild/msf-deps
+    depends_on:
+      - msf-postgres
+
+
+  install-msf:
+    build:
+      context: .
+      dockerfile: Dockerfile.install-msf
+      args:
+        ALPINE_VERSION: ${ALPINE_VERSION}
+    image: mybuild/gvc-msf
     env_file:
       - ./.env
     depends_on:
-      - build-msf-dependencies
+      - build-msf
 
   build-apk:
     build:
@@ -34,7 +62,7 @@ services:
     env_file:
       - ./.env
     depends_on:
-      - install-metasploit-framework
+      - install-msf
 
   sign-apk:
     build:

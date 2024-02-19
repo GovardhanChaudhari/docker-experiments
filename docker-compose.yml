@@ -24,6 +24,8 @@ services:
       args:
         UBUNTU_VERSION: ${UBUNTU_VERSION}
     image: mybuild/msf-deps
+    env_file:
+      - ./.env
     depends_on:
       - build-msf
 

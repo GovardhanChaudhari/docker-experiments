@@ -8,6 +8,7 @@ WORKDIR /home/gvc
 #USER gvc
 
 COPY install-msf.sh .
+COPY set-msf-env.rc .
 
 #RUN chown gvc:gvc install-msf.sh
 

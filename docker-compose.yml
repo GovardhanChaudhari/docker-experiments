@@ -2,105 +2,15 @@ version: '3.8'
 
 services:
 
-  msf-postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: gvc
-      POSTGRES_PASSWORD: gvc123
-      POSTGRES_DB: msfdb
-
-  build-msf-apline:
+  nwp:
     build:
       context: .
-      dockerfile: Dockerfile.build-msf-deps-alpine
+      dockerfile: Dockerfile
       args:
         ALPINE_VERSION: ${ALPINE_VERSION}
-    image: mybuild/msf-deps-alpine
-
-  run-msf:
-    build:
-      context: .
-      dockerfile: Dockerfile.run-msf
-      args:
-        UBUNTU_VERSION: ${UBUNTU_VERSION}
-    image: mybuild/msf-deps
-    env_file:
-      - ./.env
-    depends_on:
-      - build-msf
-
-  build-msf:
-    build:
-      context: .
-      dockerfile: Dockerfile.build-msf-deps
-      args:
-        UBUNTU_VERSION: ${UBUNTU_VERSION}
-    image: mybuild/msf-deps
-    depends_on:
-      - msf-postgres
-
-
-  install-msf:
-    build:
-      context: .
-      dockerfile: Dockerfile.install-msf
-      args:
-        ALPINE_VERSION: ${ALPINE_VERSION}
-    image: mybuild/gvc-msf
-    env_file:
-      - ./.env
-    depends_on:
-      - build-msf
-
-  build-apk:
-    build:
-      context: .
-      dockerfile: Dockerfile.build-apk
-      args:
-        ALPINE_VERSION: ${ALPINE_VERSION}
-    image: mybuild/gvc-apk
-    volumes:
-      - "${PWD}:/data"
-    env_file:
-      - ./.env
-    depends_on:
-      - install-msf
-
-  sign-apk:
-    build:
-      context: .
-      dockerfile: Dockerfile.sign-apk
-      args:
-        ALPINE_VERSION: ${ALPINE_VERSION}
-    image: mybuild/gvc-sign-apk
-    volumes:
-      - "${PWD}:/data"
-    env_file:
-      - ./.env
-
-  deploy-apk:
-    build:
-      context: .
-      dockerfile: Dockerfile.deploy-apk
-      args:
-        ALPINE_VERSION: ${ALPINE_VERSION}
-    image: mybuild/my-static-site
-    container_name: my-static-site
+    image: mybuild/nginx-web-proxy
+    container_name: nginx-web-proxy
     ports:
-      - "3000:3000"
-
-  build-essentials:
-    build:
-      context: .
-      dockerfile: Dockerfile.build-essentials
-      args:
-        UBUNTU_VERSION: ${UBUNTU_VERSION}
-    image: mybuild/build-essentials
-
-  test:
-      build:
-        context: .
-        dockerfile: Dockerfile.test
-      image: mybuild/test-image      
-      env_file:
+      - 8080:80
+    env_file:
       - ./.env

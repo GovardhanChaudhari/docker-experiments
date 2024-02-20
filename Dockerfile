@@ -1,20 +1,13 @@
-# Use a build environment image as the base
-FROM mybuild/compile-kernel
+FROM nginx:stable
 
-ARG KERNEL_VERSION
-ARG BUILD_DIR=linux-${KERNEL_VERSION}
+# Set working directory
+WORKDIR /var/www/nginx
 
-# Change to kernel source directory
-WORKDIR /usr/src/${BUILD_DIR}
+# Copy custom Nginx configuration file
+COPY nginx.conf /etc/nginx.conf
 
-# Install kernel and modules
-RUN make modules_install && \
-    make install
+# Expose port 80 for incoming requests
+EXPOSE 80
 
-# Clean up unnecessary packages and files
-#RUN apt-get autoremove -y && \
-#    apt-get clean && \
-#    rm -rf /var/lib/apt/lists/* /usr/src/linux-5.10
-
-# Set default command to boot into the new kernel
-CMD ["/bin/bash"]
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]

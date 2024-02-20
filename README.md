@@ -49,3 +49,22 @@ docker build --no-cache --progress=plain -f Dockerfile.test .
 
 chatgpt prompt:
 write a docker compose file for multiple dependent build stage, where first stage is build essentials, second is download kernel source ,third stage is compile kernel, and fourth stage is install kernel.
+
+# Without Authentication
+export HTTP_PROXY=[192.168.1.9]:[8080]
+export HTTPS_PROXY=[192.168.1.9]:[8080]
+export FTP_PROXY=[192.168.1.9]:[21]
+export NO_PROXY=localhost,127.0.0.1,::1
+
+
+unset HTTP_PROXY
+unset HTTPS_PROXY
+unset FTP_PROXY
+unset NO_PROXY
+
+
+docker exec -it nginx-web-proxy tail -f /var/log/nginx/access.log
+
+docker exec -it nginx-web-proxy ls /etc/nginx/sites-available/
+
+docker exec nginx-web-proxy nginx -s reload
